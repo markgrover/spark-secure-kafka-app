@@ -20,11 +20,12 @@ Then, take the generated uber jar from `target/spark-secure-kafka-app-1.0-SNAPSH
 #### Creating configuration
 Before you run this app, you need to set up some JAAS configuration for Kerberos access. This particular configuration is inspired by that described in the [Apache Kafka documentation](https://kafka.apache.org/documentation/#security_kerberos_sasl_clientconfig). You also need to have access to the keytab needed for secure Kafka access.
 
-We assume the client user's keytab is called `user.keytab` and is placed in the home directory on the client box. Let's create a file called `spark.conf` and place it in the home directory of the user as well, with the following contents:
+We assume the client user's keytab is called `user.keytab` and is placed in the home directory on the client box. Let's create a file called `spark.conf` and place it in the home directory of the user as well with the JAAS conf:
 ```
-/* Change user.keytab to the keytab file name.
-Keep the beginning `./` infront of the keytab name. 
-Change principal to be the real principal below */
+# Change user.keytab to the keytab file name.
+# Keep the beginning `./` infront of the keytab name. 
+# Change principal to be the real principal below
+cat << 'EOF' > spark.conf
 KafkaClient {
     com.sun.security.auth.module.Krb5LoginModule required
     useKeyTab=true
@@ -34,6 +35,7 @@ KafkaClient {
     serviceName="kafka"
     principal="user@MY.DOMAIN.COM";
 };
+EOF
 ```
 
 ### spark-submit
@@ -77,9 +79,9 @@ echo "sasl.kerberos.service.name=kafka" >> client.properties
 ```
 Populate the following contents in a different JAAS conf, say `console.conf`:
 ```
-/* Change the /full/path/to/user.keytab below
-to the full path to the keytab.
-Change the principal name accordingly */
+# Change the /full/path/to/user.keytab below
+# to the full path to the keytab.
+# Change the principal name accordingly
 cat << 'EOF' > console.conf
 KafkaClient {
     com.sun.security.auth.module.Krb5LoginModule required

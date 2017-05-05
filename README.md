@@ -7,7 +7,6 @@ This small app shows how to access data from a secure (Kerberized) Kafka cluster
 Currently this example focuses on accessing Kafka securely via Kerberos. It assumes SSL (i.e. encryption over the wire) is configured for Kafka. It assumes that Kafka authorization (via Sentry, for example) is not being used. That can be setup separately.
 
 ### Build the app
-In order to build the app, do:
 To build, you need Python 2.7+, git and maven on the box.
 Do a git clone of this repo and then run:
 ```

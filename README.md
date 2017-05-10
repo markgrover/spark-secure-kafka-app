@@ -19,12 +19,12 @@ Then, take the generated uber jar from `target/spark-secure-kafka-app-1.0-SNAPSH
 #### Creating configuration
 Before you run this app, you need to set up some JAAS configuration for Kerberos access. This particular configuration is inspired by that described in the [Apache Kafka documentation](https://kafka.apache.org/documentation/#security_kerberos_sasl_clientconfig). You also need to have access to the keytab needed for secure Kafka access.
 
-We assume the client user's keytab is called `user.keytab` and is placed in the home directory on the client box. Let's create a file called `spark.conf` and place it in the home directory of the user as well with the JAAS conf:
+We assume the client user's keytab is called `user.keytab` and is placed in the home directory on the client box. Let's create a file called `spark_jaas.conf` and place it in the home directory of the user as well with the JAAS conf:
 ```
 # Change user.keytab to the keytab file name.
 # Keep the beginning `./` infront of the keytab name. 
 # Change principal to be the real principal below
-cat << 'EOF' > spark.conf
+cat << 'EOF' > spark_jaas.conf
 KafkaClient {
     com.sun.security.auth.module.Krb5LoginModule required
     useKeyTab=true
@@ -52,10 +52,10 @@ SPARK_KAFKA_VERSION=0.10 spark2-submit \
   --num-executors 2 \
   --master yarn \
   --deploy-mode cluster \
-  --files spark.conf#spark.conf,user.keytab#user.keytab \
-  --driver-java-options "-Djava.security.auth.login.config=./spark.conf" \
+  --files spark_jaas.conf#spark_jaas.conf,user.keytab#user.keytab \
+  --driver-java-options "-Djava.security.auth.login.config=./spark_jaas.conf" \
   --class com.cloudera.spark.examples.DirectKafkaWordCount spark-secure-kafka-app-1.0-SNAPSHOT-jar-with-dependencies.jar \
-  --conf "spark.executor.extraJavaOptions=-Djava.security.auth.login.config=./spark.conf" \
+  --conf "spark.executor.extraJavaOptions=-Djava.security.auth.login.config=./spark_jaas.conf" \
   <kafka broker>:9093 \
   <topic> \
   true
@@ -104,6 +104,6 @@ kafka-console-producer --broker-list <broker>:9093 --producer.config client.prop
 ```
 
 ### What's happening under the hood?
-For consuming data via SASL/Kerberos, we pass on the JAAS configuration (`spark.conf`) to all executors. Along with this config, the keytab is also passed on to all executors.
+For consuming data via SASL/Kerberos, we pass on the JAAS configuration (`spark_jaas.conf`) to all executors. Along with this config, the keytab is also passed on to all executors.
 
 These executors via the JAAS configuration know where the keytab is (in their working directory, since it was passed using `--files`). And, the driver (in the YARN cluster mode) and the executors then use the configured credentails to access Kafka via Kerberos tickets.

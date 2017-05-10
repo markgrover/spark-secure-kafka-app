@@ -107,3 +107,18 @@ kafka-console-producer --broker-list <broker>:9093 --producer.config client.prop
 For consuming data via SASL/Kerberos, we pass on the JAAS configuration (`spark_jaas.conf`) to all executors. Along with this config, the keytab is also passed on to all executors.
 
 These executors via the JAAS configuration know where the keytab is (in their working directory, since it was passed using `--files`). And, the driver (in the YARN cluster mode) and the executors then use the configured credentails to access Kafka via Kerberos tickets.
+
+### What you should see
+If all goes well, you should see counts of various words in every batch interval, in your spark streaming driver's stdout. To get driver's stdout (when using yarn cluster mode), please get the yarn logs using `yarn logs -applicationId <app ID>`. The `<app ID>` can be obtained through the console output on the client machine where `spark-submit` was launched from. In the retrieved logs, you would see something like:
+```
+-------------------------------------------
+Time: 1494007312000 ms
+-------------------------------------------
+(word1,1)
+(word2,1)
+
+-------------------------------------------
+Time: 1494007314000 ms
+-------------------------------------------
+
+```

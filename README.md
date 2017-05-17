@@ -54,8 +54,9 @@ SPARK_KAFKA_VERSION=0.10 spark2-submit \
   --deploy-mode cluster \
   --files spark_jaas.conf#spark_jaas.conf,user.keytab#user.keytab \
   --driver-java-options "-Djava.security.auth.login.config=./spark_jaas.conf" \
-  --class com.cloudera.spark.examples.DirectKafkaWordCount spark-secure-kafka-app-1.0-SNAPSHOT-jar-with-dependencies.jar \
+  --class com.cloudera.spark.examples.DirectKafkaWordCount \
   --conf "spark.executor.extraJavaOptions=-Djava.security.auth.login.config=./spark_jaas.conf" \
+  spark-secure-kafka-app-1.0-SNAPSHOT-jar-with-dependencies.jar \
   <kafka broker>:9093 \
   <topic> \
   true

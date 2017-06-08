@@ -73,7 +73,7 @@ cd ~
 # to select the appropriate security protocol and mechanism.
 # If using SSL, also set `ssl.truststore.location` and `ssl.truststore.password` 
 # properties appropriately in client.properties
-# If using SSL, change security.protocol's value to be SASL_PLAINTEXT (instead of SASL_SSL).
+# If not using SSL, change security.protocol's value to be SASL_PLAINTEXT (instead of SASL_SSL).
 echo "security.protocol=SASL_SSL" >> client.properties
 echo "sasl.kerberos.service.name=kafka" >> client.properties
 ```

@@ -2,7 +2,7 @@ spark-secure-kafka-app
 ============
 
 ### Introduction
-This small app shows how to access data from a secure (Kerberized) Kafka cluster from Spark Streaming using [the new direct connector](http://spark.apache.org/docs/latest/streaming-kafka-0-10-integration.html) which uses the [new Kafka Consumer API](https://kafka.apache.org/documentation/#consumerconfigs). In order to use this app, you need to use Cloudera Distribution of Apache Kafka version 2.1.0 or later. And, you need to use Cloudera Distribution of Apache Spark 2 release 1 or later. Documentation for this integration can be found [here](https://www.cloudera.com/documentation/spark2/latest/topics/spark2_kafka.html).
+This small app shows how to access data from a secure (Kerberized) Kafka cluster from Spark Streaming using [the new direct connector](http://spark.apache.org/docs/latest/streaming-kafka-0-10-integration.html) which uses the [new Kafka Consumer API](https://kafka.apache.org/documentation/#consumerconfigs). In order to use this app, you need to use Cloudera Distribution of Apache Kafka version 2.1.0 or later. And, you need to use Cloudera Distribution of Apache Spark 2 release 1 or later. Documentation for this integration can be found [here](https://www.cloudera.com/documentation/spark2/latest/topics/spark2_kafka.html). You can read the related blog post [here](http://blog.cloudera.com/blog/2017/05/reading-data-securely-from-apache-kafka-to-apache-spark/).
 
 Currently this example focuses on accessing Kafka securely via Kerberos. It assumes SSL (i.e. encryption over the wire) is configured for Kafka. It assumes that Kafka authorization (via Sentry, for example) is not being used. That can be setup separately.
 
